@@ -2,7 +2,23 @@
   "name": "notes-app-reactive",
   "version": "0.1.0",
   "private": true,
+  "main": "src/electron.js",
+  "author": {
+    "name": "Precinct 702",
+    "email": "precinct0702@geeksquad.ca"
+  },
+  "contributors": [
+    {
+      "name": "Leif Sandvar",
+      "email": "lsandvar@geeksquad.ca"
+    },
+    {
+      "name": "Gregory Huber",
+      "email": "ghuber@geeksquad.ca"
+    }
+  ],
   "dependencies": {
+    "electron-is-dev": "^1.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8"
@@ -11,7 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -21,5 +38,11 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "electron": "^4.1.4",
+    "electron-builder": "^20.39.0",
+    "wait-on": "^3.2.0"
+  }
 }
