@@ -66,7 +66,7 @@ export default class TopBar extends Component {
               value={this.state.newNote}
               onChange={this.handleNoteChange}
               placeholder="Unit Notes"
-              label="identifier"
+              label="Unit Notes"
               variant="filled"
             />
             <Button
@@ -78,7 +78,7 @@ export default class TopBar extends Component {
               Submit
             </Button>
             <Typography
-              variant="title"
+              variant="h4"
             >
               Geek Squad Closing Note
             </Typography>
