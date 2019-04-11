@@ -120,9 +120,13 @@ app.on('activate', () => {
   }
 });
 
+/*
+Now begins the CRUD operations, has a listener for
+each of the 4 CRUD operations
+*/
+
 ipcMain.on('getRows', (event, arg) => {
   let query="select * from notes where date=? order by note_id";
-  console.log(arg);
   db.all(query, arg, (err, rows) => {
     if(err) {
       console.log(err);
@@ -138,26 +142,28 @@ ipcMain.on('addRow', (event, arg) => {
     if(err) {
       console.log(err);
     }
-    event.sender.send('rowAdded', true);
+    event.returnValue = true;
   });
 });
 
-ipcMain.on('deleteRow', (event, args) => {
+ipcMain.on('deleteRow', (event, arg) => {
   let query="delete from notes where date=? and id=?;";
-  db.all(query, [], (err, res) => {
+  let value=JSON.parse(arg);
+  db.all(query, value, (err, res) => {
     if(err) {
       console.log(err);
     }
-
+    event.returnValue = true;
   });
 });
 
 ipcMain.on('changeRow', (event, args) => {
   let query="update notes set note=? where date=? and id=?";
-  db.all(query, [], (err, res) => {
+  let value=JSON.parse(args);
+  db.all(query, value, (err, res) => {
     if(err) {
       console.log(err);
     }
-
+    event.returnValue = true;
   });
 });
