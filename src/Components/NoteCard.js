@@ -4,13 +4,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Fab from '@material-ui/core/Fab';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 //imports icons need for buttons
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
+//import styles
+import '../styles/contentStyles.css';
 //renderer to communicate with main process
 const { ipcRenderer } = window.require('electron');
 
@@ -41,11 +43,17 @@ export default class NoteCard extends Component {
     //if not editing just returns the text as an element
     else {
       return (
+        <div>
         <Typography
-          variant="body1"
+          variant="caption"
+        >
+          Note
+        </Typography>
+        <Typography
         >
           {this.state.note}
         </Typography>
+        </div>
       )
     }
   }
@@ -73,26 +81,30 @@ export default class NoteCard extends Component {
 
   render() {
     return (
-      <Card>
+      <Card className='card'>
         <CardContent>
           <Typography
-            variant="title"
+            variant="h6"
           >
             {this.props.note.note_id}
           </Typography>
           {this.getEdit()}
         </CardContent>
         <CardActions>
-          <Fab
+          <Button
             onClick={this.toggleEdit}
+            color="primary"
+            variant="contained"
           >
             {this.state.edit ? <CheckIcon /> : <EditIcon />}
-          </Fab>
-          <Fab
+          </Button>
+          <Button
             onClick={this.deleteRow}
+            color="secondary"
+            variant="contained"
           >
             <DeleteIcon />
-          </Fab>
+          </Button>
         </CardActions>
       </Card>
     )
