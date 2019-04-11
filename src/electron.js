@@ -101,7 +101,11 @@ async function prepareDB() {
 
 async function createWindow() {
   db = await prepareDB();
-  mainWindow = new BrowserWindow({width: 900, height: 680});
+  mainWindow = new BrowserWindow({
+    width: 900,
+    height: 680,
+    icon: __dirname + '/resources/Geek.ico',
+  });
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
   mainWindow.on('closed', () => mainWindow = null);
 }
