@@ -16,8 +16,14 @@ class App extends Component {
       currentDate: this.getDate(),
       currentNotes: [],
     }
+    //when sendRows gets recieved sets the current state sets in constructor
+    //so theres not a million listeners after a couple runs
+    ipcRenderer.on('sendRows', (event, arg) => {
+      console.log(arg);
+      this.setState({currentNotes: arg});
+    })
     //gets rows
-    this.getRows()
+    this.getRows();
   }
 
   //A simple function to get todays date in the proper format
@@ -43,16 +49,11 @@ class App extends Component {
   getRows = () => {
     //sends a getRows query
     ipcRenderer.send('getRows', this.state.currentDate);
-    //when sendRows gets recieved sets the current state
-    ipcRenderer.on('sendRows', (event, arg) => {
-      console.log(arg);
-      this.setState({currentNotes: arg});
-    })
   }
 
   render() {
     return (
-      <div className="App">
+      <div>
         <TopBar
           date={this.state.currentDate}
           dateChange={this.onDateChange}
