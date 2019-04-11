@@ -67,7 +67,7 @@ export default class NoteCard extends Component {
   //sends the query to main process and rerenders row
   deleteRow = () => {
     let arg=JSON.stringify([this.props.note.date, this.props.note.id]);
-    ipcRenderer.send('deleteRow', arg);
+    ipcRenderer.sendSync('deleteRow', arg);
     this.props.getRows();
   }
 

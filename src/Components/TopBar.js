@@ -38,17 +38,12 @@ export default class TopBar extends Component {
   //submits the add
   handleSubmit = () => {
     //sends values to be added as a JSON string to be parsed
-    ipcRenderer.send('addRow', JSON.stringify([this.props.date, this.state.newID, this.state.newNote]));
-    //recieves the confirmation that the row was added
-    ipcRenderer.on('rowAdded', (event, arg) => {
-      //resets state of fields
-      this.setState({
-        newID: "",
-        newNote: ""
-      });
-      //requeries the rows
-      this.props.getRows();
+    ipcRenderer.sendSync('addRow', JSON.stringify([this.props.date, this.state.newID.toUpperCase(), this.state.newNote]));
+    this.setState({
+      newID: "",
+      newNote: ""
     });
+    this.props.getRows();
   }
 
   render() {
