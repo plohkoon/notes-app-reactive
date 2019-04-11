@@ -1,9 +1,11 @@
 //various react and material UI imports
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
 //my component imports
 import TopBar from './Components/TopBar.js';
 import Content from './Components/Content.js';
+
+import { GeekTheme } from './styles/theme.js';
 //gets the ipcRenderer for requests the electron main process
 const { ipcRenderer } = window.require('electron');
 
@@ -53,18 +55,22 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <TopBar
-          date={this.state.currentDate}
-          dateChange={this.onDateChange}
-          getRows={this.getRows}
-        />
-        <Content
-          date={this.state.currentDate}
-          notes={this.state.currentNotes}
-          getRows={this.getRows}
-        />
-      </div>
+      <MuiThemeProvider
+        theme={GeekTheme}
+      >
+        <div>
+          <TopBar
+            date={this.state.currentDate}
+            dateChange={this.onDateChange}
+            getRows={this.getRows}
+          />
+          <Content
+            date={this.state.currentDate}
+            notes={this.state.currentNotes}
+            getRows={this.getRows}
+          />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
