@@ -1,14 +1,23 @@
+//react and material ui imports
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-
-const { ipcRenderer } = window.require('electron');
+//personal imports
+import NoteCard from './NoteCard.js';
 
 export default class Content extends Component {
-
+  //maps all the NoteCards with their respective note
   render() {
     return (
       <div>
-        <p>{JSON.stringify(this.props.notes)}</p>
+        {this.props.notes.map(row => {
+          return (
+            <NoteCard
+              key={row.note_id}
+              note={row}
+              getRows={this.props.getRows}
+            />
+          )
+        })}
       </div>
     )
   }
