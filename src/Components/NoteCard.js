@@ -33,7 +33,7 @@ export default class NoteCard extends Component {
         <TextField
           value={this.state.note}
           id="New Note"
-          onChange={eve => this.setState({note: eve.target.value})}
+          onChange={this.handleChange}
           placeholder="Unit Notes"
           label="Note"
           variant="filled"
@@ -60,6 +60,15 @@ export default class NoteCard extends Component {
         </div>
       )
     }
+  }
+  //handle text field change
+  handleChange = ev => {
+    let string = ev.target.value.replace('\n', '');
+    if(string !== ev.target.value) {
+      this.toggleEdit();
+      return;
+    }
+    this.setState({note: ev.target.value})
   }
   //toggles the editing
   toggleEdit = () => {
