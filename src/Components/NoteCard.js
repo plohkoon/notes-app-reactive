@@ -38,8 +38,6 @@ export default class NoteCard extends Component {
           variant="filled"
           multiline={true}
           fullWidth={true}
-          rows={1}
-          rowsMax={1}
         />
       )
     }
