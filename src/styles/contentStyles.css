@@ -8,3 +8,9 @@
   width: 80%;
   margin: 10px;
 }
+
+.addNote {
+  position: fixed !important;
+  right: 2%;
+  bottom: 2%;
+}

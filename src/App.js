@@ -17,7 +17,13 @@ class App extends Component {
     this.state = {
       currentDate: this.getDate(),
       currentNotes: [],
+      addingNote: true,
+      addingTimout: setTimeout(() => {
+                      this.setState({addingNote: false});
+                    }, 1000),
     }
+
+
     //when sendRows gets recieved sets the current state sets in constructor
     //so theres not a million listeners after a couple runs
     ipcRenderer.on('sendRows', (event, arg) => {
@@ -26,6 +32,7 @@ class App extends Component {
     })
     //gets rows
     this.getRows();
+
   }
 
   //A simple function to get todays date in the proper format
@@ -52,6 +59,24 @@ class App extends Component {
     //sends a getRows query
     ipcRenderer.send('getRows', this.state.currentDate);
   }
+  //function to toggle the add note menu
+  toggleAdding = () => {
+    //if switching to adding note
+    if(!this.state.addingNote) {
+      //toggles the flag and adds the timeout
+      this.setState({
+        addingNote: !this.state.addingNote,
+        addingTimeout: setTimeout(() => {
+                        this.setState({addingNote: false});
+                      }, 10000),
+      })
+    }
+    else {
+      //else clears the timout if exists and toggles flag
+      clearTimeout(this.state.addingTimeout)
+      this.setState({addingNote: !this.state.addingNote})
+    }
+  }
 
   render() {
     return (
@@ -68,6 +93,8 @@ class App extends Component {
             date={this.state.currentDate}
             notes={this.state.currentNotes}
             getRows={this.getRows}
+            addingNote={this.state.addingNote}
+            toggleAdding={this.toggleAdding}
           />
         </div>
       </MuiThemeProvider>
