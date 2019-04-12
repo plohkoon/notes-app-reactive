@@ -22,6 +22,7 @@ export default class AddCard extends Component {
   //updates ID
   handleIDChange = ev => {
     this.setState({newID: ev.target.value});
+    this.props.clearTimeout();
   }
   //updates notes
   handleNoteChange = ev => {
@@ -30,6 +31,7 @@ export default class AddCard extends Component {
       this.handleSubmit();
       return;
     }
+    this.props.clearTimeout();
     this.setState({newNote: ev.target.value});
   }
   //submits the add
@@ -40,6 +42,7 @@ export default class AddCard extends Component {
       newID: "",
       newNote: ""
     });
+    this.props.clearTimeout();
     this.idInput.focus()
     this.props.getRows();
   }

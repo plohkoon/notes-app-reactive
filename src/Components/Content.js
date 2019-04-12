@@ -31,6 +31,7 @@ export default class Content extends Component {
             <AddCard
               getRows={this.props.getRows}
               date={this.props.date}
+              clearTimeout={this.props.clearTimeout}
             />
           </CSSTransition>
           :
