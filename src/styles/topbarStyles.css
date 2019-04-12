@@ -18,3 +18,37 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.geekText {
+  display: none;
+}
+.squadText {
+  display: none;
+}
+.closingText {
+  display: none;
+}
+.notesText {
+  display: none;
+}
+
+@media only screen and (min-width: 430px) {
+  .notesText {
+    display: inline;
+  }
+}
+@media only screen and (min-width: 560px) {
+  .closingText {
+    display: inline;
+  }
+}
+@media only screen and (min-width: 670px) {
+  .geekText {
+    display: inline;
+  }
+}
+@media only screen and (min-width: 780px) {
+  .squadText {
+    display: inline;
+  }
+}

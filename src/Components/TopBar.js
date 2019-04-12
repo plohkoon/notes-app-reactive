@@ -41,7 +41,10 @@ export default class TopBar extends Component {
               <Typography
                 variant="h4"
               >
-                Geek Squad Closing Note
+                <span className="geekText">Geek </span>
+                <span className="squadText">Squad </span>
+                <span className="closingText">Closing </span>
+                <span className="notesText">Notes</span>
               </Typography>
             </div>
             <DatePicker
