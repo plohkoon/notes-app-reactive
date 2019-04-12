@@ -1,6 +1,5 @@
 //react and material ui imports
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import CheckIcon from '@material-ui/icons/Check';

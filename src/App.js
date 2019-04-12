@@ -1,6 +1,6 @@
 //various react and material UI imports
 import React, { Component } from 'react';
-import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 //my component imports
 import TopBar from './Components/TopBar.js';
 import Content from './Components/Content.js';
