@@ -9,6 +9,8 @@ import DateFnsUtils from '@date-io/date-fns';
 //styles import
 import '../styles/topbarStyles.css';
 
+import logo from '../resources/Geek.png';
+
 export default class TopBar extends Component {
 //ionitializes state and props
   constructor(props) {
@@ -34,11 +36,14 @@ export default class TopBar extends Component {
           <ToolBar
             className="topBar"
           >
-            <Typography
-              variant="h4"
-            >
-              Geek Squad Closing Note
-            </Typography>
+            <div className="logoHeader">
+              <img src={logo} alt="Geek Squad" className="logo"/>
+              <Typography
+                variant="h4"
+              >
+                Geek Squad Closing Note
+              </Typography>
+            </div>
             <DatePicker
               value={this.getShiftedDate()}
               onChange={this.props.dateChange}

@@ -1,3 +1,20 @@
 .textEntry {
   margin: 5px;
 }
+
+.logo {
+  height: 50px;
+  margin: 10px;
+}
+
+.logoHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.topBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
