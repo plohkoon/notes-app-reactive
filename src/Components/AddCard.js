@@ -40,6 +40,7 @@ export default class AddCard extends Component {
       newID: "",
       newNote: ""
     });
+    this.idInput.focus()
     this.props.getRows();
   }
   //handles enter press
@@ -61,6 +62,11 @@ export default class AddCard extends Component {
             placeholder="Unit Identifier"
             label="Identifier"
             variant="standard"
+            autoFocus={true}
+            ref="newID"
+            inputRef={input => {
+              this.idInput = input;
+            }}
           />
           <TextField
             id="New Note"
