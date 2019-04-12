@@ -4,6 +4,7 @@ import Fab from '@material-ui/core/Fab';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import CheckIcon from '@material-ui/icons/Check';
 import TextField from '@material-ui/core/TextField';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 //personal imports
 import NoteCard from './NoteCard.js';
 import AddCard from './AddCard.js';
@@ -14,7 +15,7 @@ export default class Content extends Component {
   //maps all the NoteCards with their respective note
   render() {
     return (
-      <div className='contentContainer'>
+      <TransitionGroup className='contentContainer'>
         <Fab
           color="primary"
           className={"addNote"}
@@ -23,22 +24,34 @@ export default class Content extends Component {
           {this.props.addingNote ? <CheckIcon /> : <NoteAdd />}
         </Fab>
         {this.props.addingNote ?
-          <AddCard
+          <CSSTransition
+            key={"Card"}
+            timeout={500}
+            classNames="moveCard"
+          >
+            <AddCard
 
-          />
+            />
+          </CSSTransition>
           :
           ""
         }
           {this.props.notes.map(row => {
             return (
-              <NoteCard
+              <CSSTransition
                 key={row.id}
-                note={row}
-                getRows={this.props.getRows}
-              />
+                timeout={500}
+                classNames="moveCard"
+              >
+                <NoteCard
+                  key={row.id}
+                  note={row}
+                  getRows={this.props.getRows}
+                />
+              </CSSTransition>
             )
           })}
-      </div>
+      </TransitionGroup>
     )
   }
 

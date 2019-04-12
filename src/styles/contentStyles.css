@@ -14,3 +14,27 @@
   right: 2%;
   bottom: 2%;
 }
+
+.moveCard-enter {
+  max-height: 0px !important;
+  opacity: 0.1;
+}
+
+.moveCard-enter-active {
+  max-height: 1000px !important;
+  opacity: 1;
+
+  transition: all 500ms ease-in;
+}
+
+.moveCard-exit {
+  max-height: 1000px !important;
+  opacity: 1;
+}
+
+.moveCard-exit-active {
+  max-height: 0px !important;
+  opacity: 0.1;
+
+  transition: all 500ms ease-out;
+}
