@@ -7,6 +7,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 //importing styles
 import '../styles/contentStyles.css';
+//ipcRenderer for query
+const { ipcRenderer } = window.require('electron');
 
 export default class AddCard extends Component {
 
@@ -15,6 +17,35 @@ export default class AddCard extends Component {
     this.state = {
       newID: "",
       newNote: ""
+    }
+  }
+  //updates ID
+  handleIDChange = ev => {
+    this.setState({newID: ev.target.value});
+  }
+  //updates notes
+  handleNoteChange = ev => {
+    let string = ev.target.value.replace('\n', '');
+    if(string !== ev.target.value) {
+      this.handleSubmit();
+      return;
+    }
+    this.setState({newNote: ev.target.value});
+  }
+  //submits the add
+  handleSubmit = () => {
+    //sends values to be added as a JSON string to be parsed
+    ipcRenderer.sendSync('addRow', JSON.stringify([this.props.date, this.state.newID.toUpperCase(), this.state.newNote]));
+    this.setState({
+      newID: "",
+      newNote: ""
+    });
+    this.props.getRows();
+  }
+  //handles enter press
+  handleEnter = ev => {
+    if(ev.key === 'Enter') {
+      this.handleSubmit();
     }
   }
 

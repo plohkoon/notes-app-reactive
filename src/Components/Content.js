@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Fab from '@material-ui/core/Fab';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import CheckIcon from '@material-ui/icons/Check';
-import TextField from '@material-ui/core/TextField';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 //personal imports
 import NoteCard from './NoteCard.js';
@@ -30,7 +29,8 @@ export default class Content extends Component {
             classNames="moveCard"
           >
             <AddCard
-
+              getRows={this.props.getRows}
+              date={this.props.date}
             />
           </CSSTransition>
           :
