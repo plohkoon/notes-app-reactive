@@ -37,6 +37,10 @@ export default class NoteCard extends Component {
           placeholder="Unit Notes"
           label="Note"
           variant="filled"
+          multiline={true}
+          fullWidth={true}
+          rows={2}
+          rowsMax={2}
         />
       )
     }
