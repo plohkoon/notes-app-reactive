@@ -9,6 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 //date import for date selector
 import DateFnsUtils from '@date-io/date-fns';
+//styles import
+import '../styles/topbarStyles.css';
 //ipcRenderer for query
 const { ipcRenderer } = window.require('electron');
 
@@ -28,12 +30,18 @@ export default class TopBar extends Component {
     return date;
   }
   //updates ID
-  handleIDChange = event => {
-    this.setState({newID: event.target.value});
+  handleIDChange = ev => {
+    this.setState({newID: ev.target.value});
   }
   //updates notes
-  handleNoteChange = event => {
-    this.setState({newNote: event.target.value});
+  handleNoteChange = ev => {
+    console.log(ev.target.value);
+    let string = ev.target.value.replace('\n', '');
+    if(string !== ev.target.value) {
+      this.handleSubmit();
+      return;
+    }
+    this.setState({newNote: ev.target.value});
   }
   //submits the add
   handleSubmit = () => {
@@ -45,21 +53,30 @@ export default class TopBar extends Component {
     });
     this.props.getRows();
   }
+  //handles enter press
+  handleEnter = ev => {
+    if(ev.key === 'Enter') {
+      this.handleSubmit();
+    }
+  }
 
   render() {
     return (
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <AppBar
-          position="static"
+          position="sticky"
         >
-          <ToolBar>
+          <ToolBar
+            className="topBar"
+          >
             <TextField
               id="New ID"
               value={this.state.newID}
               onChange={this.handleIDChange}
+              onKeyPress={this.handleEnter}
               placeholder="Unit Identifier"
               label="Identifier"
-              variant="filled"
+              variant="standard"
             />
             <TextField
               id="New Note"
@@ -67,7 +84,11 @@ export default class TopBar extends Component {
               onChange={this.handleNoteChange}
               placeholder="Unit Notes"
               label="Unit Notes"
-              variant="filled"
+              variant="standard"
+              fullWidth={true}
+              multiline={true}
+              rows={1}
+              rowsMax={1}
             />
             <Button
               id="Note Submit"
