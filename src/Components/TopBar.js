@@ -35,7 +35,6 @@ export default class TopBar extends Component {
   }
   //updates notes
   handleNoteChange = ev => {
-    console.log(ev.target.value);
     let string = ev.target.value.replace('\n', '');
     if(string !== ev.target.value) {
       this.handleSubmit();
