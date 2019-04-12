@@ -14,7 +14,7 @@ export default class Content extends Component {
         {this.props.notes.map(row => {
           return (
             <NoteCard
-              key={row.note_id}
+              key={row.id}
               note={row}
               getRows={this.props.getRows}
             />
