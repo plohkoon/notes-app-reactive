@@ -20,7 +20,7 @@ class App extends Component {
       addingNote: true,
       addingTimout: setTimeout(() => {
                       this.setState({addingNote: false});
-                    }, 1000),
+                    }, 60000),
     }
 
 
@@ -68,7 +68,7 @@ class App extends Component {
         addingNote: !this.state.addingNote,
         addingTimeout: setTimeout(() => {
                         this.setState({addingNote: false});
-                      }, 10000),
+                      }, 60000),
       })
     }
     else {
