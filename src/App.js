@@ -1,11 +1,13 @@
 //various react and material UI imports
 import React, { Component } from 'react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 //my component imports
 import TopBar from './Components/TopBar.js';
 import Content from './Components/Content.js';
 
 import { GeekTheme } from './styles/theme.js';
+import { DarkGeekTheme } from './styles/darkTheme.js';
 //gets the ipcRenderer for requests the electron main process
 const { ipcRenderer } = window.require('electron');
 
@@ -16,8 +18,7 @@ class App extends Component {
     //sets initial date and notes
     this.state = {
       currentDate: this.getDate(),
-      currentNotes: [],
-      addingNote: true,
+      dark: false,
     }
   }
   //A simple function to get todays date in the proper format
@@ -40,22 +41,27 @@ class App extends Component {
     ipcRenderer.send('getRows', this.state.currentDate);
   }
 
+  toggleDark = () => {
+    this.setState({dark: !this.state.dark});
+  }
+
   render() {
     return (
       <MuiThemeProvider
-        theme={GeekTheme}
+        theme={this.state.dark ? DarkGeekTheme : GeekTheme}
       >
-        <div>
-          <TopBar
-            date={this.state.currentDate}
-            dateChange={this.onDateChange}
-          />
-          <Content
-            date={this.state.currentDate}
-            notes={this.state.currentNotes}
-            getRows={this.getRows}
-          />
-        </div>
+        <CssBaseline />
+        <TopBar
+          date={this.state.currentDate}
+          dateChange={this.onDateChange}
+        />
+        <Content
+          date={this.state.currentDate}
+          notes={this.state.currentNotes}
+          getRows={this.getRows}
+          toggleDark={this.toggleDark}
+          dark={this.state.dark}
+        />
       </MuiThemeProvider>
     );
   }

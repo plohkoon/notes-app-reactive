@@ -15,6 +15,12 @@
   bottom: 2%;
 }
 
+.toggleDark {
+  position: fixed !important;
+  left: 2%;
+  bottom: 2%;
+}
+
 .statCard {
   margin: 10px;
   width: 31%;

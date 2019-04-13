@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Fab from '@material-ui/core/Fab';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import CheckIcon from '@material-ui/icons/Check';
+import Brightness3 from '@material-ui/icons/Brightness3';
+import Brightness7 from '@material-ui/icons/Brightness7';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 //personal imports
 import NoteCard from './NoteCard.js';
@@ -96,6 +98,13 @@ export default class Content extends Component {
           onClick={this.toggleAdding}
         >
           {this.state.addingNote ? <CheckIcon /> : <NoteAdd />}
+        </Fab>
+        <Fab
+          color="primary"
+          className="toggleDark"
+          onClick={this.props.toggleDark}
+        >
+          {this.props.dark ? <Brightness7 fontSize='large'/> : <Brightness3 fontSize='large'/>}
         </Fab>
         {this.state.addingNote ?
           <CSSTransition
