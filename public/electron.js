@@ -61,14 +61,18 @@ async function prepareDB() {
           };
 
       let dbPath = electron.app.getPath('userData') + "//NOTES.db";
-
+      //attempts to write DB file will fail if exists
       writeFile(dbPath,  "", { flag : 'wx' })
+        //erros if db exists
         .catch(err => {
           console.log("file already there");
         })
+        //continuse on
         .then(res => {
           console.log("file exists");
+          //attempts to open DB file
           Database(dbPath, sqlite.OPEN_READWRITE)
+            //ensures that the table exists properly
             .then(db => {
               console.log("database exists");
               db.all("create table  if not exists notes(id INTEGER PRIMARY KEY AUTOINCREMENT, note_id TEXT, note TEXT, date TEXT);", [], (err, res) => {
@@ -76,6 +80,7 @@ async function prepareDB() {
                   console.log(err);
                   throw err;
                 }
+                //finally returns the database
                 resolve(db);
               })
             })
@@ -90,34 +95,41 @@ async function prepareDB() {
 
 async function prepareStats() {
   return new Promise((resolve, reject) => {
+    //promisifies read and write file
     const writeFile=util.promisify(fs.writeFile),
           readFile=util.promisify(fs.readFile);
     let filePath = electron.app.getPath('userData') + "/stats.json";
-
+    //initializes default values
     let defaultValues= {
       dataWipe: '2100-01-01',
       nps: '2100-01-01',
       detractor: '2100-01-01',
     }
-
+    //attempts to write file with no oeverwrite
     writeFile(filePath, JSON.stringify(defaultValues), { flag: 'wx' })
+      //if errored the file exists
       .catch(err => {
         console.log("file already there");
       })
+      //proceeds to read the file
       .then(res => {
         readFile(filePath)
+          //once file is read verifies that the data is in a healthy state
           .then(res => {
+            //parses JSON and creates the regex
             let values=JSON.parse(res);
-            let regex="[0-9]{4}-[0-9]{4}-[0-9]{4}"
-            if((!values.dataWipe || !values.dataWipe.match(regex))) {
+            let regex=new RegExp("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+            //verifies that every value exists and that it matches pattern
+            if(!values.dataWipe || !regex.test(values.dataWipe)) {
               values.dataWipe='2100-01-01';
             }
-            if(!values.nps || !values.nps.match(regex)) {
+            if(!values.nps || !regex.test(values.nps)) {
               values.nps='2100-01-01';
             }
-            if(!values.detractor || !values.detractor.match(regex)) {
+            if(!values.detractor || !regex.test(values.detractor)) {
               values.detractor='2100-01-01';
             }
+            //resolves the JSON object
             resolve(values);
           })
           .catch(err => {
@@ -129,25 +141,29 @@ async function prepareStats() {
 }
 
 async function createWindow() {
+  //creates and saves database variable
   db = await prepareDB();
+  //creates and saves stats
   stats = await prepareStats();
+  //initializes window
   mainWindow = new BrowserWindow({
     width: 900,
     height: 680,
-    icon: __dirname + '/resources/Geek.ico',
+    icon: __dirname + './/Geek.ico',
   });
+  //loads the file depending on if dev or if prod
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
   mainWindow.on('closed', () => mainWindow = null);
 }
-
+//on ready opens window
 app.on('ready', createWindow);
-
+//on closed quits
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
-
+//mac detail
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
