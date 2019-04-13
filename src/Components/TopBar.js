@@ -56,5 +56,4 @@ export default class TopBar extends Component {
       </MuiPickersUtilsProvider>
     )
   }
-
 }

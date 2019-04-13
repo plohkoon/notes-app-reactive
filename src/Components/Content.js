@@ -56,10 +56,12 @@ export default class Content extends Component {
     }
     return compArr;
   }
-
+  //function to clear and reset timout
   clearTimeout = () => {
     console.log("clearing timeout");
+    //clears timeout from state
     clearTimeout(this.state.addingTimeout);
+    //resets the timeout in state
     this.setState({
       addingTimeout: setTimeout(() => {
                       this.setState({addingNote: false});
