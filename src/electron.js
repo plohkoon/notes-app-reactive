@@ -37,7 +37,8 @@ const dateDiff = (origin, current) => {
 
 }
 //simple function to clean sql query
-const sqlEscape = (query) => {
+//possibly deprecated pretty sure it works without this
+/*const sqlEscape = (query) => {
     //changes how apostrphe escaping is handled as SQL does differently
     let     escapedQuery = query.replace("\'", "''"),
             cleansedQuery = sqlstring.escape(escapedQuery);
@@ -47,10 +48,11 @@ const sqlEscape = (query) => {
 
     return cleansedQuery;
 
-}
+}*/
 
 let mainWindow,
-    db;
+    db,
+    stats;
 
 async function prepareDB() {
   return new Promise((resolve, reject) => {
@@ -99,8 +101,49 @@ async function prepareDB() {
 
 }
 
+async function prepareStats() {
+  return new Promise((resolve, reject) => {
+    const writeFile=util.promisify(fs.writeFile),
+          readFile=util.promisify(fs.readFile);
+    let filePath = electron.app.getPath('userData') + "/stats.json";
+
+    let defaultValues= {
+      dataWipe: '2100-01-01',
+      nps: '2100-01-01',
+      detractor: '2100-01-01',
+    }
+
+    writeFile(filePath, JSON.stringify(defaultValues), { flag: 'wx' })
+      .catch(err => {
+        console.log("file already there");
+      })
+      .then(res => {
+        readFile(filePath)
+          .then(res => {
+            let values=JSON.parse(res);
+            let regex="[0-9]{4}-[0-9]{4}-[0-9]{4}"
+            if((!values.dataWipe || !values.dataWipe.match(regex))) {
+              values.dataWipe='2100-01-01';
+            }
+            if(!values.nps || !values.nps.match(regex)) {
+              values.nps='2100-01-01';
+            }
+            if(!values.detractor || !values.detractor.match(regex)) {
+              values.detractor='2100-01-01';
+            }
+            resolve(values);
+          })
+          .catch(err => {
+            console.log(err);
+            throw err;
+          })
+      })
+  })
+}
+
 async function createWindow() {
   db = await prepareDB();
+  stats = await prepareStats();
   mainWindow = new BrowserWindow({
     width: 900,
     height: 680,
@@ -125,6 +168,21 @@ app.on('activate', () => {
 });
 
 /*
+Basic get and return for the 3 extra stats being tracked
+*/
+ipcMain.on('getStats', (event, arg) => {
+  event.sender.send('sendStats', JSON.stringify(stats));
+});
+ipcMain.on('setStats', (event, arg) =>
+  fs.writeFile(electron.app.getPath('userData') + "/stats.json", arg, err => {
+    if(err) {
+      console.log(err);
+      throw err;
+    }
+    event.returnValue = true;
+  })
+})
+/*
 Now begins the CRUD operations, has a listener for
 each of the 4 CRUD operations
 */
@@ -141,7 +199,7 @@ ipcMain.on('getRows', (event, arg) => {
 
 ipcMain.on('addRow', (event, arg) => {
   let query="insert into notes (date, note_id, note) values (?,?,?);"
-  let values = JSON.parse(arg);
+  let values = JSON.parse(arg)
   db.all(query, values, (err, res) => {
     if(err) {
       console.log(err);

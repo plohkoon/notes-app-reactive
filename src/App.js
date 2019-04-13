@@ -19,6 +19,7 @@ class App extends Component {
     this.state = {
       currentDate: this.getDate(),
       currentNotes: [],
+      stats: {},
       addingNote: true,
       addingTimeout: setTimeout(() => {
                       this.setState({addingNote: false});
@@ -31,7 +32,13 @@ class App extends Component {
     ipcRenderer.on('sendRows', (event, arg) => {
       console.log(arg);
       this.setState({currentNotes: arg});
-    })
+    });
+    ipcRenderer.on('sendStats', (event, arg) => {
+      console.log(arg);
+      this.setState({ stats: JSON.parse(arg) });
+      console.log(this.state.stats.dataWipe);
+    });
+    ipcRenderer.send('getStats');
     //gets rows
     this.getRows();
 

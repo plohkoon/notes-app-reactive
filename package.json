@@ -29,7 +29,8 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
-    "sqlite3": "^4.0.6"
+    "sqlite3": "^4.0.6",
+    "sqlstring": "^2.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
