@@ -15,7 +15,7 @@
       "perMachine": true,
       "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
-      "deleteAppDataOnUninstall": true,
+      "deleteAppDataOnUninstall": false,
       "createDesktopShortcut": true,
       "installerIcon": "build/Geek.ico",
       "uninstallerIcon": "build/Geek.ico",
