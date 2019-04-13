@@ -36,19 +36,6 @@ const dateDiff = (origin, current) => {
     }
 
 }
-//simple function to clean sql query
-//possibly deprecated pretty sure it works without this
-/*const sqlEscape = (query) => {
-    //changes how apostrphe escaping is handled as SQL does differently
-    let     escapedQuery = query.replace("\'", "''"),
-            cleansedQuery = sqlstring.escape(escapedQuery);
-    //cleans up after the sql escape gets a bit to OCD in its cleanse
-    cleansedQuery = cleansedQuery.replace(/\\/g, "");
-    console.log(cleansedQuery);
-
-    return cleansedQuery;
-
-}*/
 
 let mainWindow,
     db,
@@ -64,7 +51,7 @@ async function prepareDB() {
               let initializedDB = new sqlite.Database(dbPath, sqlType, (err) => {
                 //if errored then rejects promise
                 if(err) {
-                  console.log("failed to intialize databse connection");
+                  console.log("failed to intialize database connection");
                   rej(err);
                 }
                 //if succeeds returns database
@@ -73,7 +60,7 @@ async function prepareDB() {
             });
           };
 
-      let dbPath = electron.app.getPath('userData') + "/NOTES.db";
+      let dbPath = electron.app.getPath('userData') + "//NOTES.db";
 
       writeFile(dbPath,  "", { flag : 'wx' })
         .catch(err => {
