@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Started with
+
+The basis of getting react and electron to play nicely is based on the article https://medium.com/@kitze/%EF%B8%8F-from-react-to-an-electron-app-ready-for-production-a0468ecb1da3
+
+### Built with Material UI
+
+All major components are created entirely from Google's material-ui components and theming. Making styling and menial web development easier
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -66,7 +74,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-### Started with
-
-The basis of getting react and electron to play nicely is based on the article https://medium.com/@kitze/%EF%B8%8F-from-react-to-an-electron-app-ready-for-production-a0468ecb1da3
