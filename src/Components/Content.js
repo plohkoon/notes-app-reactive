@@ -13,12 +13,18 @@ import '../styles/contentStyles.css'
 //ipcRenderer for electron cuminication
 const { ipcRenderer } = window.require('electron');
 
+const timeoutTime = 120000;
+
 export default class Content extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       stats: {},
+      addingNote: true,
+      addingTimeout: setTimeout(() => {
+                      this.setState({addingNote: false});
+                    }, timeoutTime),
     }
     //adds a listener for when stats gets updated
     ipcRenderer.on('sendStats', (event, arg) => {
@@ -43,6 +49,34 @@ export default class Content extends Component {
     }
     return compArr;
   }
+
+  clearTimeout = () => {
+    console.log("clearing timeout");
+    clearTimeout(this.state.addingTimeout);
+    this.setState({
+      addingTimeout: setTimeout(() => {
+                      this.setState({addingNote: false});
+                    }, timeoutTime),
+    });
+  }
+  //function to toggle the add note menu
+  toggleAdding = () => {
+    //if switching to adding note
+    if(!this.state.addingNote) {
+      //toggles the flag and adds the timeout
+      this.setState({
+        addingNote: !this.state.addingNote,
+        addingTimeout: setTimeout(() => {
+                        this.setState({addingNote: false});
+                      }, timeoutTime),
+      })
+    }
+    else {
+      //else clears the timout if exists and toggles flag
+      clearTimeout(this.state.addingTimeout)
+      this.setState({addingNote: !this.state.addingNote})
+    }
+  }
   //maps all the NoteCards with their respective note
   render() {
     return (
@@ -50,11 +84,11 @@ export default class Content extends Component {
         <Fab
           color="primary"
           className={"addNote"}
-          onClick={this.props.toggleAdding}
+          onClick={this.toggleAdding}
         >
-          {this.props.addingNote ? <CheckIcon /> : <NoteAdd />}
+          {this.state.addingNote ? <CheckIcon /> : <NoteAdd />}
         </Fab>
-        {this.props.addingNote ?
+        {this.state.addingNote ?
           <CSSTransition
             key={"Card"}
             timeout={500}
@@ -63,7 +97,7 @@ export default class Content extends Component {
             <AddCard
               getRows={this.props.getRows}
               date={this.props.date}
-              clearTimeout={this.props.clearTimeout}
+              clearTimeout={this.clearTimeout}
             />
           </CSSTransition>
           :

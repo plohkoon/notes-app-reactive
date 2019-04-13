@@ -9,8 +9,6 @@ import { GeekTheme } from './styles/theme.js';
 //gets the ipcRenderer for requests the electron main process
 const { ipcRenderer } = window.require('electron');
 
-const timeoutTime = 120000;
-
 class App extends Component {
   //constructor to set initial
   constructor(props) {
@@ -20,12 +18,7 @@ class App extends Component {
       currentDate: this.getDate(),
       currentNotes: [],
       addingNote: true,
-      addingTimeout: setTimeout(() => {
-                      this.setState({addingNote: false});
-                    }, timeoutTime),
     }
-
-
     //when sendRows gets recieved sets the current state sets in constructor
     //so theres not a million listeners after a couple runs
     ipcRenderer.on('sendRows', (event, arg) => {
@@ -37,15 +30,7 @@ class App extends Component {
 
   }
 
-  clearTimeout = () => {
-    console.log("clearing timeout");
-    clearTimeout(this.state.addingTimeout);
-    this.setState({
-      addingTimeout: setTimeout(() => {
-                      this.setState({addingNote: false});
-                    }, timeoutTime),
-    });
-  }
+
   //A simple function to get todays date in the proper format
   //pulled from initial notes app
   getDate = (date) => {
@@ -70,24 +55,6 @@ class App extends Component {
     //sends a getRows query
     ipcRenderer.send('getRows', this.state.currentDate);
   }
-  //function to toggle the add note menu
-  toggleAdding = () => {
-    //if switching to adding note
-    if(!this.state.addingNote) {
-      //toggles the flag and adds the timeout
-      this.setState({
-        addingNote: !this.state.addingNote,
-        addingTimeout: setTimeout(() => {
-                        this.setState({addingNote: false});
-                      }, timeoutTime),
-      })
-    }
-    else {
-      //else clears the timout if exists and toggles flag
-      clearTimeout(this.state.addingTimeout)
-      this.setState({addingNote: !this.state.addingNote})
-    }
-  }
 
   render() {
     return (
@@ -103,9 +70,6 @@ class App extends Component {
             date={this.state.currentDate}
             notes={this.state.currentNotes}
             getRows={this.getRows}
-            addingNote={this.state.addingNote}
-            toggleAdding={this.toggleAdding}
-            clearTimeout={this.clearTimeout}
           />
         </div>
       </MuiThemeProvider>
