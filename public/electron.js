@@ -147,12 +147,17 @@ async function createWindow() {
   stats = await prepareStats();
   //initializes window
   mainWindow = new BrowserWindow({
-    width: 900,
-    height: 680,
+    show: false,
     icon: __dirname + './/Geek.ico',
   });
+  //lets window start maximized
+  mainWindow.maximize();
   //loads the file depending on if dev or if prod
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+  //once window is ready to show then it shows
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  })
   mainWindow.on('closed', () => mainWindow = null);
 }
 //on ready opens window
