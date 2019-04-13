@@ -2,7 +2,7 @@
   "name": "Closing-Notes",
   "version": "2.0.0",
   "private": true,
-  "main": "src/electron.js",
+  "main": "public/electron.js",
   "homepage": "./",
   "author": {
     "name": "Precinct 702",
