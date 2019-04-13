@@ -39,7 +39,6 @@ export default class Content extends Component {
     let compArr = [];
     //runs through and renders each stat on a card
     for(let prop in this.state.stats) {
-      console.log(JSON.stringify({ [prop]: this.state.stats[prop]}))
       compArr.push(<StatCard
         key={prop}
         stat={prop}
