@@ -7,10 +7,42 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 //personal imports
 import NoteCard from './NoteCard.js';
 import AddCard from './AddCard.js';
+import StatCard from './StatCard.js';
 //importing styles
 import '../styles/contentStyles.css'
+//ipcRenderer for electron cuminication
+const { ipcRenderer } = window.require('electron');
 
 export default class Content extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      stats: {},
+    }
+    //adds a listener for when stats gets updated
+    ipcRenderer.on('sendStats', (event, arg) => {
+      console.log(arg);
+      this.setState({ stats: JSON.parse(arg) });
+    });
+    //initial send for stats
+    ipcRenderer.send('getStats');
+  }
+  //function to render the statCards with the different stats
+  renderStats = () => {
+    let compArr = [];
+    //runs through and renders each stat on a card
+    for(let prop in this.state.stats) {
+      console.log(JSON.stringify({ [prop]: this.state.stats[prop]}))
+      compArr.push(<StatCard
+        key={prop}
+        stat={prop}
+        date={this.state.stats[prop]}
+        curDate={this.props.date}
+      />)
+    }
+    return compArr;
+  }
   //maps all the NoteCards with their respective note
   render() {
     return (
@@ -37,21 +69,26 @@ export default class Content extends Component {
           :
           ""
         }
-          {this.props.notes.map(row => {
-            return (
-              <CSSTransition
+        {this.props.notes.map(row => {
+          return (
+            <CSSTransition
+              key={row.id}
+              timeout={500}
+              classNames="moveCard"
+            >
+              <NoteCard
                 key={row.id}
-                timeout={500}
-                classNames="moveCard"
-              >
-                <NoteCard
-                  key={row.id}
-                  note={row}
-                  getRows={this.props.getRows}
-                />
-              </CSSTransition>
-            )
-          })}
+                note={row}
+                getRows={this.props.getRows}
+              />
+            </CSSTransition>
+          )
+        })}
+        <div
+          className='statDiv'
+        >
+          {this.renderStats()}
+        </div>
       </TransitionGroup>
     )
   }

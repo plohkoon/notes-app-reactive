@@ -170,16 +170,26 @@ app.on('activate', () => {
 /*
 Basic get and return for the 3 extra stats being tracked
 */
+//basic get operation for stats from the stats variable
 ipcMain.on('getStats', (event, arg) => {
   event.sender.send('sendStats', JSON.stringify(stats));
 });
-ipcMain.on('setStats', (event, arg) =>
-  fs.writeFile(electron.app.getPath('userData') + "/stats.json", arg, err => {
+//update operation
+ipcMain.on('setStats', (event, arg) => {
+  //setting initial variables
+  let value = JSON.parse(arg),
+      path =  electron.app.getPath('userData') + "/stats.json";
+  //updates the stat in the stats object
+  stats = Object.assign(stats, value);
+  //sends the new object
+  event.sender.send('sendStats', JSON.stringify(stats));
+  //writes the new object to file to save it
+  fs.writeFile(path, JSON.stringify(stats), (err) => {
     if(err) {
       console.log(err);
       throw err;
     }
-    event.returnValue = true;
+    console.log("Stats file updated");
   })
 })
 /*
