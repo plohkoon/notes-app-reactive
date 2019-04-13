@@ -25,14 +25,22 @@ export default class Content extends Component {
       addingTimeout: setTimeout(() => {
                       this.setState({addingNote: false});
                     }, timeoutTime),
+      notes: [],
     }
     //adds a listener for when stats gets updated
     ipcRenderer.on('sendStats', (event, arg) => {
       console.log(arg);
       this.setState({ stats: JSON.parse(arg) });
     });
+    //when sendRows gets recieved sets the current state sets in constructor
+    //so theres not a million listeners after a couple runs
+    ipcRenderer.on('sendRows', (event, arg) => {
+      console.log("recieved rows ", arg);
+      this.setState({notes: arg});
+    });
     //initial send for stats
     ipcRenderer.send('getStats');
+    ipcRenderer.send('getRows', this.props.date);
   }
   //function to render the statCards with the different stats
   renderStats = () => {
@@ -94,7 +102,6 @@ export default class Content extends Component {
             classNames="moveCard"
           >
             <AddCard
-              getRows={this.props.getRows}
               date={this.props.date}
               clearTimeout={this.clearTimeout}
             />
@@ -102,7 +109,7 @@ export default class Content extends Component {
           :
           ""
         }
-        {this.props.notes.map(row => {
+        {this.state.notes.map(row => {
           return (
             <CSSTransition
               key={row.id}

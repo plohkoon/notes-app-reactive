@@ -16,7 +16,9 @@ export default class AddCard extends Component {
     super(props);
     this.state = {
       newID: "",
-      newNote: ""
+      newNote: "",
+      idErr: false,
+      noteErr: false,
     }
   }
   //updates ID
@@ -26,27 +28,51 @@ export default class AddCard extends Component {
   }
   //updates notes
   handleNoteChange = ev => {
+    //clears timeout as an interaction has happened
+    this.props.clearTimeout();
+    //checks to see if new character is is an enter
     let string = ev.target.value.replace('\n', '');
     if(string !== ev.target.value) {
       this.handleSubmit();
       return;
     }
-    this.props.clearTimeout();
+    //else updates the state
     this.setState({newNote: ev.target.value});
   }
   //submits the add
   handleSubmit = () => {
+    //prevents empty ID and shows error field if empty
+    if(this.state.newID.trim() === '') {
+      this.setState({
+        newID: '',
+        idErr: true,
+      });
+      return;
+    }
+    //prevents empty ID and shows error field if empty
+    if(this.state.newNote.trim() === '') {
+      this.setState({
+        newNote: '',
+        noteErr: true,
+      });
+      return;
+    }
+    console.log("Sending data");
     //sends values to be added as a JSON string to be parsed
     ipcRenderer.sendSync('addRow', JSON.stringify([this.props.date, this.state.newID.toUpperCase(), this.state.newNote]));
     this.setState({
       newID: "",
-      newNote: ""
+      newNote: "",
+      idErr: false,
+      noteErr: false,
     });
+    //clears timeout and refocueses input
     this.props.clearTimeout();
-    this.idInput.focus()
-    this.props.getRows();
+    this.idInput.focus();
+    //regetting rows after submit
+    ipcRenderer.send('getRows', this.props.date);
   }
-  //handles enter press
+  //handles enter press in the new id
   handleEnter = ev => {
     if(ev.key === 'Enter') {
       this.handleSubmit();
@@ -70,6 +96,8 @@ export default class AddCard extends Component {
             inputRef={input => {
               this.idInput = input;
             }}
+            required={true}
+            error={this.state.newID === '' && this.state.idErr}
           />
           <TextField
             id="New Note"
@@ -82,6 +110,8 @@ export default class AddCard extends Component {
             multiline={true}
             rows={1}
             rowsMax={1}
+            required={true}
+            error={this.state.newNote === '' && this.state.noteErr}
           />
         </CardContent>
         <CardActions>
