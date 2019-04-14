@@ -42,7 +42,7 @@ export default class StatCard extends Component {
   }
   //handles the reset button, resets the stats
   handleReset = () => {
-    let payLoad = JSON.stringify({ [this.props.stat]: this.today()});
+    let payLoad = JSON.stringify({ [this.props.stat]: this.props.curDate});
     ipcRenderer.send('setStats', payLoad);
   }
 
