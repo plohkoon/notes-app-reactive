@@ -13,14 +13,6 @@ import Refresh from '@material-ui/icons/Refresh';
 const { ipcRenderer } = window.require('electron');
 
 export default class StatCard extends Component {
-  //gets todays dats as a string for the reset button
-  today = () => {
-    let date = new Date(),
-        day = ("0" + (date.getDate())).slice(-2),
-        month = ("0" + (date.getMonth() + 1)).slice(-2),
-        year = date.getFullYear();
-    return year + '-' + month + '-' + day;
-  }
   //gets the difference between the viewed date and the stat date
   dateDiff = () => {
     //converts string to date objects
