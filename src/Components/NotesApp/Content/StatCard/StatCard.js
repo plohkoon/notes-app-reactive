@@ -6,7 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 //importing styles
-import '../styles/contentStyles.css';
+import './styles.css';
 //icont imports
 import Refresh from '@material-ui/icons/Refresh';
 //ipcRenderer for query

@@ -11500,6 +11500,11 @@ worker-farm@^1.5.2:
   dependencies:
     errno "~0.1.7"
 
+wouter@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/wouter/-/wouter-1.1.0.tgz#2f0151f9ec6110006aa34f1347bbb78a0152a4b1"
+  integrity sha512-bI+xCFUYEIEz9pe5ONzu2dyiqKN7tO9AHfMHuAplSF82h/GQI5nRzqcW7zwDF9c2ruRyx+nH7mfsNe82GOwqgg==
+
 wrap-ansi@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-2.1.0.tgz#d8fc3d284dd05794fe84973caecdd1cf824fdd85"
