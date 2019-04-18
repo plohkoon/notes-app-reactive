@@ -11,8 +11,6 @@ import Routes from './Components/Routes.js';
 import './styles.css'
 
 import { GeekTheme, DarkGeekTheme } from './theme.js';
-//gets the ipcRenderer for requests the electron main process
-const { ipcRenderer } = window.require('electron');
 
 class App extends Component {
   //constructor to set initial
@@ -35,13 +33,13 @@ class App extends Component {
       >
         <CssBaseline />
         <Routes />
-          <Fab
-            color="primary"
-            className="toggleDark"
-            onClick={this.toggleDark}
-          >
-            {this.state.dark ? <Brightness7 fontSize='large'/> : <Brightness3 fontSize='large'/>}
-          </Fab>
+        <Fab
+          color="primary"
+          className="toggleDark"
+          onClick={this.toggleDark}
+        >
+          {this.state.dark ? <Brightness7 fontSize='large'/> : <Brightness3 fontSize='large'/>}
+        </Fab>
       </MuiThemeProvider>
     );
   }
