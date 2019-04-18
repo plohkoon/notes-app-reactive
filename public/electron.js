@@ -147,6 +147,8 @@ async function createWindow() {
   stats = await prepareStats();
   //initializes window
   mainWindow = new BrowserWindow({
+    minWidth: 405,
+    minHeight: 500,
     show: false,
     icon: __dirname + './/Geek.ico',
   });
