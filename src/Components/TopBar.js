@@ -4,15 +4,12 @@ import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-
-import { Link } from 'wouter';
 //date import for date selector
 import DateFnsUtils from '@date-io/date-fns';
 //styles import
-import './styles.css';
+import '../styles/topbarStyles.css';
 
-import logo from './Geek.png';
+import logo from '../resources/Geek.png';
 
 export default class TopBar extends Component {
 //ionitializes state and props
@@ -49,22 +46,6 @@ export default class TopBar extends Component {
                 <span className="closingText">Closing </span>
                 <span className="notesText">Notes</span>
               </Typography>
-              <Link href='/sow' >
-                <Button
-                  color='secondary'
-                  variant='contained'
-                >
-                  Scope Pages
-                </Button>
-              </Link>
-              <Link href='/sop' >
-                <Button
-                  color='secondary'
-                  variant='contained'
-                >
-                  SOP Pages
-                </Button>
-              </Link>
             </div>
             <DatePicker
               value={this.getShiftedDate()}

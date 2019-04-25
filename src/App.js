@@ -1,16 +1,13 @@
 //various react and material UI imports
 import React, { Component } from 'react';
-import Fab from '@material-ui/core/Fab';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Brightness3 from '@material-ui/icons/Brightness3';
-import Brightness7 from '@material-ui/icons/Brightness7';
+//my component imports
+import TopBar from './Components/TopBar.js';
+import Content from './Components/Content.js';
 
-import Routes from './Components/Routes.js';
-//importing styles
-import './styles.css'
-
-import { GeekTheme, DarkGeekTheme } from './theme.js';
+import { GeekTheme } from './styles/theme.js';
+import { DarkGeekTheme } from './styles/darkTheme.js';
 //gets the ipcRenderer for requests the electron main process
 const { ipcRenderer } = window.require('electron');
 
@@ -18,10 +15,30 @@ class App extends Component {
   //constructor to set initial
   constructor(props) {
     super(props);
-    //sets dark mode
+    //sets initial date and notes
     this.state = {
+      currentDate: this.getDate(),
       dark: false,
     }
+  }
+  //A simple function to get todays date in the proper format
+  //pulled from initial notes app
+  getDate = (date) => {
+
+      let day, month, year;
+
+      date = date ? date : new Date();
+      day = ("0" + (date.getDate())).slice(-2);
+      month = ("0" + (date.getMonth() + 1)).slice(-2);
+      year = date.getFullYear();
+
+      return year + "-" + month + "-" + day;
+
+  }
+  //changes the date state and than regets rows
+  onDateChange = (date) => {
+    this.setState({currentDate: this.getDate(date)});
+    ipcRenderer.send('getRows', this.state.currentDate);
   }
 
   toggleDark = () => {
@@ -34,14 +51,17 @@ class App extends Component {
         theme={this.state.dark ? DarkGeekTheme : GeekTheme}
       >
         <CssBaseline />
-        <Routes />
-          <Fab
-            color="primary"
-            className="toggleDark"
-            onClick={this.toggleDark}
-          >
-            {this.state.dark ? <Brightness7 fontSize='large'/> : <Brightness3 fontSize='large'/>}
-          </Fab>
+        <TopBar
+          date={this.state.currentDate}
+          dateChange={this.onDateChange}
+        />
+        <Content
+          date={this.state.currentDate}
+          notes={this.state.currentNotes}
+          getRows={this.getRows}
+          toggleDark={this.toggleDark}
+          dark={this.state.dark}
+        />
       </MuiThemeProvider>
     );
   }

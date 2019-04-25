@@ -6,7 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 //importing styles
-import './styles.css';
+import '../styles/contentStyles.css';
 //ipcRenderer for query
 const { ipcRenderer } = window.require('electron');
 
