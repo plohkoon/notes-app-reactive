@@ -1,5 +1,6 @@
 //various react and material UI imports
 import React, { Component } from 'react';
+import Fab from '@material-ui/core/Fab';
 //my component imports
 import TopBar from './TopBar/TopBar.js';
 import Content from './Content/Content.js';
