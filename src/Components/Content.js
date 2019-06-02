@@ -91,7 +91,7 @@ export default class Content extends Component {
   //maps all the NoteCards with their respective note
   render() {
     return (
-      <TransitionGroup className='contentContainer'>
+      <div className='contentContainer'>
         <Fab
           color="primary"
           className={"addNote"}
@@ -106,41 +106,44 @@ export default class Content extends Component {
         >
           {this.props.dark ? <Brightness7 fontSize='large'/> : <Brightness3 fontSize='large'/>}
         </Fab>
-        {this.state.addingNote ?
-          <CSSTransition
-            key={"Card"}
-            timeout={500}
-            classNames="moveCard"
-          >
-            <AddCard
-              date={this.props.date}
-              clearTimeout={this.clearTimeout}
-            />
-          </CSSTransition>
-          :
-          ""
-        }
-        {this.state.notes.map(row => {
-          return (
+        <TransitionGroup className='contentContainer'>
+          {this.state.addingNote ?
             <CSSTransition
-              key={row.id}
+              key={"Card"}
               timeout={500}
               classNames="moveCard"
+              in={this.state.addingNote}
             >
-              <NoteCard
-                key={row.id}
-                note={row}
-                getRows={this.props.getRows}
+              <AddCard
+                date={this.props.date}
+                clearTimeout={this.clearTimeout}
               />
             </CSSTransition>
-          )
-        })}
-        <div
-          className='statDiv'
-        >
-          {this.renderStats()}
-        </div>
-      </TransitionGroup>
+            :
+            ""
+          }
+          {this.state.notes.map(row => {
+            return (
+              <CSSTransition
+                key={row.id}
+                timeout={500}
+                classNames="moveCard"
+              >
+                <NoteCard
+                  key={row.id}
+                  note={row}
+                  getRows={this.props.getRows}
+                />
+              </CSSTransition>
+            )
+          })}
+        </TransitionGroup>
+      <div
+        className='statDiv'
+      >
+        {this.renderStats()}
+      </div>
+    </div>
     )
   }
 

@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 }
 
 .card {
@@ -41,23 +42,25 @@ classes for the css transitions fo cards
 .moveCard-enter {
   max-height: 0px !important;
   opacity: 0.1;
+  transition: all 500ms ease-in !important;
 }
 
 .moveCard-enter-active {
   max-height: 1000px !important;
   opacity: 1;
 
-  transition: all 500ms ease-in;
+
 }
 
 .moveCard-exit {
   max-height: 1000px !important;
   opacity: 1;
+  transition: all 500ms ease-out !important;
 }
 
 .moveCard-exit-active {
   max-height: 0px !important;
   opacity: 0.1;
 
-  transition: all 500ms ease-out;
+
 }
