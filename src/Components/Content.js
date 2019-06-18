@@ -38,6 +38,10 @@ export default class Content extends Component {
     //so theres not a million listeners after a couple runs
     ipcRenderer.on('sendRows', (event, arg) => {
       console.log("recieved rows ", arg);
+      //sorts the array based on a numerical comparison in localeCompare
+      arg.sort((a, b) => {
+        return a.note_id.localeCompare(b.note_id, undefined, {numeric: true});
+      })
       this.setState({notes: arg});
     });
     //initial send for stats

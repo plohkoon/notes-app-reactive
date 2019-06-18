@@ -206,7 +206,7 @@ each of the 4 CRUD operations
 */
 
 ipcMain.on('getRows', (event, arg) => {
-  let query="select * from notes where date=? order by note_id";
+  let query="select * from notes where date=?";
   db.all(query, arg, (err, rows) => {
     if(err) {
       console.log(err);
