@@ -1,9 +1,9 @@
 {
-  "name": "Closing-Notes",
+  "name": "closing-notes",
   "version": "2.0.1",
   "private": true,
   "main": "public/electron.js",
-  "homepage": "./",
+  "homepage": "./public/index.html",
   "author": {
     "name": "Precinct 702",
     "email": "precinct0702@geeksquad.ca"
