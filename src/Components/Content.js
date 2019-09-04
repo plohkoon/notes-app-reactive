@@ -24,7 +24,7 @@ export default class Content extends Component {
     this.state = {
       stats: {},
       addingNote: true,
-      addingTimeout: setTimeout(() => {
+      addingTimeout: window.setTimeout(() => {
                       this.setState({addingNote: false});
                     }, timeoutTime),
       notes: [],
@@ -69,7 +69,7 @@ export default class Content extends Component {
     clearTimeout(this.state.addingTimeout);
     //resets the timeout in state
     this.setState({
-      addingTimeout: setTimeout(() => {
+      addingTimeout: window.setTimeout(() => {
                       this.setState({addingNote: false});
                     }, timeoutTime),
     });
